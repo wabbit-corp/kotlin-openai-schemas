@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 repositories {
     mavenCentral()
+
+    maven("https://jitpack.io")
 }
 
 group   = "one.wabbit"
@@ -30,7 +32,7 @@ publishing {
 }
 
 dependencies {
-    implementation(project(":kotlin-data-ref")) // 1.1.1
+    implementation("one.wabbit:kotlin-data-ref:1.1.1")
 
     testImplementation(kotlin("test"))
 
