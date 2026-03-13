@@ -1,6 +1,7 @@
 package one.wabbit.openaischemas
 
 import kotlin.test.Test
+import kotlin.jvm.JvmInline
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
