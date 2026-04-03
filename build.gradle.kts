@@ -11,7 +11,7 @@ repositories {
 }
 
 group = "one.wabbit"
-version = "0.2.0"
+version = "0.1.0"
 
 plugins {
     id("com.android.kotlin.multiplatform.library")
@@ -19,6 +19,8 @@ plugins {
     kotlin("multiplatform")
 
     kotlin("plugin.serialization")
+
+    id("one.wabbit.acyclic")
 
     id("org.jetbrains.dokka")
     id("org.jetbrains.kotlinx.kover")
@@ -28,7 +30,7 @@ plugins {
 }
 
 mavenPublishing {
-    coordinates("one.wabbit", "kotlin-openai-schemas", "0.2.0")
+    coordinates("one.wabbit", "kotlin-openai-schemas", "0.1.0")
     publishToMavenCentral()
     signAllPublications()
     pom {
@@ -72,6 +74,11 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.add("-Xcontext-parameters")
 
+        freeCompilerArgs.addAll(
+            "-P",
+            "plugin:one.wabbit.acyclic:compilationUnits=enabled",
+        )
+
     }
     applyDefaultHierarchyTemplate()
 
@@ -96,8 +103,16 @@ kotlin {
 
     macosArm64("hostNative")
 
-    targets.withType(KotlinNativeTarget::class.java).configureEach {
-        binaries.framework {
+    listOf(
+
+        targets.getByName("iosArm64"),
+
+        targets.getByName("iosSimulatorArm64"),
+
+        targets.getByName("hostNative"),
+
+    ).forEach { target ->
+        (target as KotlinNativeTarget).binaries.framework {
             baseName = "OpenaiSchemas"
             isStatic = true
         }
@@ -108,7 +123,7 @@ kotlin {
             dependencies {
                 implementation("com.aallam.openai:openai-client:4.0.1")
 
-                implementation("one.wabbit:kotlin-data-ref:2.0.0")
+                implementation("one.wabbit:kotlin-data-ref:1.1.1")
 
             }
 
