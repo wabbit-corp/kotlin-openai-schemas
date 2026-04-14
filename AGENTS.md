@@ -10,5 +10,6 @@ Add repo-specific instructions above or below the managed facts block. Keep manu
 - Canonical repo target: `kotlin-openai-schemas`. Useful entrypoints: `dev project show kotlin-openai-schemas`, `dev build kotlin-openai-schemas`, `dev check kotlin-openai-schemas`.
 - Setup-managed files are regenerated with `dev setup kotlin-openai-schemas`; avoid hand-editing stamped generated files.
 - Sanctioned override files in this repo: `build.extra.gradle.kts`, `settings.local.gradle.kts`.
+- Review `kotlin-conventions.md` before editing Kotlin code in this repo.
 - Configured project types: `kotlin/kmp`. Docs: `dokka`.
 <!-- END app-wabbit-dev managed facts -->
