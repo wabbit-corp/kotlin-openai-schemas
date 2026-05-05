@@ -1,0 +1,5 @@
+# Repo-local check suppressions for empty fixture trees and host-native target naming.
+check:ignore E_DUPLICATE_DIRECTORY_TREE src/main
+check:ignore E_DUPLICATE_FILE .banner.png
+check:ignore E_KMP_AMBIGUOUS_NATIVE_NAME .
+check:ignore E_KMP_REDUNDANT_TARGET_ALIAS .
