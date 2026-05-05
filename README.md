@@ -1,12 +1,19 @@
 # kotlin-openai-schemas
 
+![](./.meta/github-project-banner.png)
+
+<p align=center>
+    <img src="https://img.shields.io/maven-central/v/one.wabbit/kotlin-openai-schemas" alt="Maven Central">
+    <img src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF" alt="Kotlin Multiplatform">
+</p>
+
 `kotlin-openai-schemas` is a Kotlin Multiplatform helper library for deriving OpenAI function-tool
 schemas from `kotlinx.serialization` descriptors.
 
 It is designed for applications that model tool calls as typed Kotlin request classes and want the
 same model to produce OpenAI SDK `Tool` declarations and decode model `FunctionCall` values.
 
-## Installation
+## 🚀 Installation
 
 ```kotlin
 repositories {
@@ -21,7 +28,7 @@ dependencies {
 The library depends on `kotlinx.serialization`, `one.wabbit:kotlin-data-ref`, and the Aallam
 OpenAI Kotlin SDK types used for chat tools.
 
-## Quick Start
+## 🚀 Usage
 
 ```kotlin
 import kotlinx.serialization.SerialName

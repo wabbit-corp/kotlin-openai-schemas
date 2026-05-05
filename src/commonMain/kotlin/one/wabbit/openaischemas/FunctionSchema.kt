@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 package one.wabbit.openaischemas
 
 import com.aallam.openai.api.chat.FunctionCall
@@ -69,9 +71,7 @@ object FunctionSchema {
     @Serializable
     data class FunctionDef(val name: KString, val argType: TypeDef, val description: KString?)
 
-    /**
-     * Primitive Kotlin serialization kinds understood by this schema model.
-     */
+    /** Primitive Kotlin serialization kinds understood by this schema model. */
     @Serializable
     enum class PrimType {
         /** Kotlin `Char`, represented as a JSON string. */
@@ -359,7 +359,8 @@ object FunctionSchema {
                         )
                     )
                 }
-                is Sealed -> TODO()
+                is Sealed ->
+                    error("Sealed schema emission is not supported by kotlin-openai-schemas yet.")
             }
 
         /**
@@ -442,8 +443,8 @@ object FunctionSchema {
     /**
      * Derives a [TypeDef] from a Kotlin serialization descriptor.
      *
-     * The [cache] is keyed by descriptor identity to preserve recursive/shared definitions and avoid
-     * repeatedly expanding the same serializable type.
+     * The [cache] is keyed by descriptor identity to preserve recursive/shared definitions and
+     * avoid repeatedly expanding the same serializable type.
      *
      * @param descriptor the descriptor to inspect.
      * @param cache descriptor-identity cache reused across recursive calls.
@@ -537,8 +538,10 @@ object FunctionSchema {
                     TypeDef.Sealed(name, subtypes, docString)
                 }
 
-                is SerialKind.CONTEXTUAL -> TODO()
-                PolymorphicKind.OPEN -> TODO()
+                is SerialKind.CONTEXTUAL ->
+                    error("Contextual serializers cannot be converted to OpenAI schemas.")
+                PolymorphicKind.OPEN ->
+                    error("Open polymorphic serializers cannot be converted to OpenAI schemas.")
             }
 
         if (descriptor.isNullable) {
@@ -563,13 +566,14 @@ object FunctionSchema {
     /**
      * Builds OpenAI function tools from a sealed request descriptor.
      *
-     * The descriptor must represent a non-null, non-inline sealed serializable type. Each subtype is
-     * emitted as a separate OpenAI function tool. Subtypes should use `@SerialName` values without
-     * dots because those names become OpenAI function names.
+     * The descriptor must represent a non-null, non-inline sealed serializable type. Each subtype
+     * is emitted as a separate OpenAI function tool. Subtypes should use `@SerialName` values
+     * without dots because those names become OpenAI function names.
      *
      * @param descriptor the sealed request descriptor.
      * @return generated tool definitions in descriptor subtype order.
-     * @throws IllegalArgumentException if [descriptor] is not a supported sealed request descriptor.
+     * @throws IllegalArgumentException if [descriptor] is not a supported sealed request
+     *   descriptor.
      */
     @OptIn(ExperimentalSerializationApi::class)
     fun makeFunctions(descriptor: SerialDescriptor): KList<ToolDef> {

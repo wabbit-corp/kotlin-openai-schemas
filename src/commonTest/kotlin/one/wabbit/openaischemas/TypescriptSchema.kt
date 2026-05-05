@@ -1,7 +1,9 @@
+// SPDX-License-Identifier: LicenseRef-Wabbit-Public-Test-License-1.1
+
 package one.wabbit.openaischemas
 
-import kotlin.test.Test
 import kotlin.jvm.JvmInline
+import kotlin.test.Test
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -90,7 +92,8 @@ sealed interface TSType {
             is Prim,
             is Array,
             is Map,
-            is Nullable -> TODO()
+            is Nullable ->
+                error("Nullable aliases are not emitted as standalone TypeScript definitions.")
             is Enum -> "type $name = ${values.joinToString(" | ") { escapeTS(it.name) }}"
             is Object -> {
                 val declDoc = if (docString != null) "// $docString\n" else ""
@@ -275,8 +278,12 @@ fun def(descriptor: SerialDescriptor, cache: MutableMap<Ref<SerialDescriptor>, T
                 TSType.Sealed(name, subtypes, docString)
             }
 
-            is SerialKind.CONTEXTUAL -> TODO()
-            PolymorphicKind.OPEN -> TODO()
+            is SerialKind.CONTEXTUAL ->
+                error("Contextual serializers cannot be converted to TypeScript schema helpers.")
+            PolymorphicKind.OPEN ->
+                error(
+                    "Open polymorphic serializers cannot be converted to TypeScript schema helpers."
+                )
         }
 
     if (descriptor.isNullable) {
